@@ -78,28 +78,13 @@ public class GeneralSnippets {
 
 
 
-
-
-
-
 	/**
-	 * Underline a specific text (option not supported through the XML layout)
-	 * @param textView	the textview element containing the text to underline
-	 */
-	public static void underlineText(TextView textView) {
-		SpannableString content = new SpannableString(textView.getText());
-		content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-		textView.setText(content);
-	}
-
-
-	/**
-	 * The following methods deal with the representation of big numbers. For example, show 100k instead
+	 * The following method deals with the representation of big numbers. For example, show 100k instead
 	 * of 100.000
 	 * @param valueString	String containing the value to format
 	 * @Return              String containing the beautified number
 	 */
-	public static String formatValue(String valueString) {
+	public static String formatBigNumber(String valueString) {
 		double value = new Double (valueString);
 		if (value == 0)		return "0";
 		int power; 
@@ -117,7 +102,7 @@ public class GeneralSnippets {
 	
 
 	/**
-	 * Represent the time coming from the server to a friendlier format
+	 * Represent the time coming from the server in a friendlier format
 	 * @param context		Activity context
 	 * @param time			Time as it's received from the server
 	 * @return				A String with the friendlier format
@@ -149,24 +134,22 @@ public class GeneralSnippets {
 	}
 
 	
-	
 
 	/**
 	 * Hide the keyboard if possible
 	 * @param context
 	 * @param activity
 	 */
-	public static void hideKeyboard(Context context, Activity activity) {
+	public static void hideKeyboard(Context context) {
 		// Hide the keyboard
 		InputMethodManager inputManager = (InputMethodManager)            
-		activity.getSystemService(Context.INPUT_METHOD_SERVICE); 
-		if (activity.getCurrentFocus() != null) {
-			inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),      
+		context.getSystemService(Context.INPUT_METHOD_SERVICE); 
+		if (((Activity) context).getCurrentFocus() != null) {
+			inputManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(),      
 					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 
 	}
-
 
 	
 	/**
@@ -174,7 +157,7 @@ public class GeneralSnippets {
 	 * @param context
 	 * @param activity
 	 */
-	public static void showKeyboard(Context context, Activity activity) {
+	public static void showKeyboard(Context context) {
 		// show the keyboard
 		InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
@@ -285,7 +268,7 @@ public class GeneralSnippets {
 	 * @param context
 	 */
 	public static void launchMarket (final Context context) {
-		HoloAlertDialogBuilder builder = new HoloAlertDialogBuilder(context);
+		AlertDialogBuilder builder = new AlertDialogBuilder(context);
 
 		builder
 		.setTitle("Rate our App")
@@ -327,27 +310,6 @@ public class GeneralSnippets {
 		alert.show();
 
 
-	}
-
-
-	/**
-	 * Launch the mail activity with text prefilled in to recommend the App to a friend
-	 * @param context
-	 * @param tracker
-	 */
-	public static void recommendApp (Context context, GoogleAnalyticsTracker tracker) {
-		tracker.trackEvent("General", "Recommend App", "", 0);
-		SharedPreferences pref = context.getSharedPreferences(FunctionsHelper.PREFS_USER, Context.MODE_PRIVATE);
-		String userJSON = pref.getString("userJSON", null);
-		String username = "";
-		try {
-			JSONObject user = new JSONObject (userJSON);
-			username = user.getString("username");
-		} catch (Exception e) {e.printStackTrace();}
-
-		String subject = context.getResources().getString(R.string.recommend_subject).replace("SENDER_NAME", username);
-		String text = context.getResources().getString(R.string.recommend_text).replace("SENDER_NAME", username);
-		FunctionsHelper.sendEmail (context, "", subject, text);
 	}
 
 

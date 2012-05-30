@@ -2,7 +2,7 @@ public class ImageSnippets {
 
 
 	/**
-	 * Launch the picture libraries. Overwrite onActivityResult() to get the 
+	 * Launch the picture libraries. Overwrite onActivityResult() to get the callback with the code CHOOSE_IMAGE_ACTIVITY_REQUEST_CODE
 	 * @param activity
 	 */
 	public static void takePhotoFromLibrary (Activity activity) {
@@ -15,7 +15,7 @@ public class ImageSnippets {
 
 	
 	/**
-	 * Launch the camera activity
+	 * Launch the camera activity. Overwrite onActivityResult() to get the callback with the code CHOOSE_IMAGE_ACTIVITY_REQUEST_CODE
 	 * @param activity
 	 * @return
 	 */
@@ -32,39 +32,6 @@ public class ImageSnippets {
 		activity.startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
 		return file.getAbsolutePath();
-	}
-
-	
-	/** Create a File for saving an image or video */
-	private static File getOutputMediaFile(int type){
-		String state = Environment.getExternalStorageState();
-		if(!state.equals(Environment.MEDIA_MOUNTED)){
-			//			Log.d ("p6", "media not mounted");
-			return null;
-		}
-		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Android_Snippets");
-		// This location works best if you want the created images to be shared
-		// between applications and persist after your app has been uninstalled.
-
-		// Create the storage directory if it does not exist
-		if (! mediaStorageDir.exists()){
-			if (! mediaStorageDir.mkdirs()){
-				//				Log.d("p6", "failed to create directory");
-				return null;
-			}
-		}
-
-		// Create a media file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		File mediaFile;
-
-		if (type == MEDIA_TYPE_IMAGE){
-			mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_"+ timeStamp + ".jpg");
-		} else {
-			return null;
-		}
-
-		return mediaFile;
 	}
 
 
