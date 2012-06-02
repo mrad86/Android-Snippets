@@ -17,7 +17,7 @@ public class ImageSnippets {
 	/**
 	 * Launch the camera activity. Overwrite onActivityResult() to get the callback with the code CHOOSE_IMAGE_ACTIVITY_REQUEST_CODE
 	 * @param activity
-	 * @return
+	 * @return	the absolute path to the picture
 	 */
 	public static String takePhotoFromCamera (Activity activity) {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
